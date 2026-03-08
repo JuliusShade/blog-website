@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(bun:*)",
+      "WebFetch(domain:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(timeout:*)"
+    ],
+    "deny": [],
+    "additionalDirectories": ["/home/ctowles/code/f"]
+  },
+  "enabledPlugins": {}
+}

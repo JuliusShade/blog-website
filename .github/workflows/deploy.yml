@@ -1,0 +1,97 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  CLOUD_RUN_SERVICE: blog
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  deploy:
+    name: Build & Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Parse prod.tfvars
+        id: tfvars
+        run: |
+          TFVARS="infra/terraform/environments/prod.tfvars"
+          get() { grep "^$1" "$TFVARS" | sed 's/.*= *"\(.*\)"/\1/'; }
+          CONTAINER_IMAGE=$(get container_image)
+          echo "project_id=$(get project_id)" >> "$GITHUB_OUTPUT"
+          echo "site_url=$(get site_url)" >> "$GITHUB_OUTPUT"
+          echo "gtag_id=$(get gtag_id)" >> "$GITHUB_OUTPUT"
+          echo "region=$(echo "$CONTAINER_IMAGE" | sed 's/-docker\.pkg\.dev.*//')" >> "$GITHUB_OUTPUT"
+          echo "image_base=$(echo "$CONTAINER_IMAGE" | sed 's/:[^/]*$//')" >> "$GITHUB_OUTPUT"
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Authenticate Docker to Artifact Registry
+        run: gcloud auth configure-docker ${{ steps.tfvars.outputs.region }}-docker.pkg.dev --quiet
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate image tags
+        id: tags
+        run: |
+          DATE_TAG=$(date -u '+%Y-%m-%d-%H-%M')
+          SHA_TAG=${GITHUB_SHA::7}
+          echo "date_tag=${DATE_TAG}" >> "$GITHUB_OUTPUT"
+          echo "sha_tag=${SHA_TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/container/blog.Dockerfile
+          push: true
+          tags: |
+            ${{ steps.tfvars.outputs.image_base }}:${{ steps.tags.outputs.date_tag }}
+            ${{ steps.tfvars.outputs.image_base }}:${{ steps.tags.outputs.sha_tag }}
+            ${{ steps.tfvars.outputs.image_base }}:latest
+          build-args: |
+            GIT_SHA=${{ steps.tags.outputs.sha_tag }}
+            BUILD_TAG=${{ steps.tags.outputs.date_tag }}
+            NUXT_PUBLIC_GTAG_ID=${{ steps.tfvars.outputs.gtag_id }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run services update ${{ env.CLOUD_RUN_SERVICE }} \
+            --image=${{ steps.tfvars.outputs.image_base }}:${{ steps.tags.outputs.date_tag }} \
+            --region=${{ steps.tfvars.outputs.region }} \
+            --project=${{ steps.tfvars.outputs.project_id }}
+
+      - name: Health check
+        run: |
+          sleep 10
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' ${{ steps.tfvars.outputs.site_url }})
+          echo "Health check status: ${STATUS}"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "::warning::Health check returned ${STATUS}, expected 200"
+          fi

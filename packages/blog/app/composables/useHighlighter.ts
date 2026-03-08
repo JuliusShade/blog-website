@@ -1,0 +1,24 @@
+import { createHighlighter } from 'shiki';
+import type { HighlighterGeneric } from 'shiki';
+import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let highlighter: HighlighterGeneric<any, any> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let promise: Promise<HighlighterGeneric<any, any>> | null = null;
+
+export async function useHighlighter() {
+  if (!promise) {
+    promise = createHighlighter({
+      // note: mermaid is not supported in shiki web bundle, and issue with full bundle.
+      langs: ['vue', 'js', 'ts', 'css', 'html', 'json', 'yaml', 'markdown', 'bash', 'python'],
+      themes: ['material-theme-palenight', 'material-theme-lighter'],
+      engine: createJavaScriptRegexEngine(),
+    });
+  }
+  if (!highlighter) {
+    highlighter = await promise;
+  }
+
+  return highlighter;
+}
