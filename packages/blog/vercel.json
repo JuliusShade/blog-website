@@ -1,6 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nuxtjs",
-  "outputDirectory": ".output/public",
   "installCommand": "cd ../.. && pnpm install"
 }
