@@ -1,6 +1,7 @@
 # Chris Towles Blog
 
 ![cicd badge](https://github.com/ChrisTowles/blog/actions/workflows/ci.yml/badge.svg?branch=main)
+<!-- Vercel deployment trigger -->
 
 This is just my personal blog at <https://Chris.Towles.dev>
 
