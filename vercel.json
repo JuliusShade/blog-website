@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm build && find . -maxdepth 4 -name config.json -path *vercel* 2>/dev/null && pwd && ls .vercel/output 2>/dev/null; ls packages/blog/.vercel/output 2>/dev/null",
+  "buildCommand": "pnpm build && mkdir -p ../../.vercel && mv .vercel/output ../../.vercel/output",
   "installCommand": "pnpm install",
   "framework": null
 }
