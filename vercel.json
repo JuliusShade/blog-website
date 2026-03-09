@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "bash scripts/vercel-build.sh",
+  "buildCommand": "pnpm build && echo '=== DEBUG: locating .vercel/output ===' && find . -maxdepth 5 -path '*/.vercel/output/config.json' 2>/dev/null && echo '=== ls root .vercel ===' && ls -la .vercel/output/ 2>/dev/null || echo 'not at root' && echo '=== ls packages/blog/.vercel ===' && ls -la packages/blog/.vercel/output/ 2>/dev/null || echo 'not at packages/blog' && echo '=== pwd ===' && pwd",
   "installCommand": "pnpm install",
   "framework": null
 }
