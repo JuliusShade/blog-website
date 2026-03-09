@@ -5,7 +5,7 @@ output "cloud_run_url" {
 
 output "database_instance_name" {
   description = "Cloud SQL instance name"
-  value       = module.cloud_sql.instance_name
+  value       = var.use_cloud_sql ? module.cloud_sql[0].instance_name : "external-db"
 }
 
 output "artifact_registry_repository" {

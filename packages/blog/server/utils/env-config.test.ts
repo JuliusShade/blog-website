@@ -34,6 +34,20 @@ describe('envSchema', () => {
     expect(result.success).toBe(false);
   });
 
+  it('parses valid env without Braintrust config', () => {
+    const {
+      BRAINTRUST_API_KEY: _,
+      BRAINTRUST_PROJECT_NAME: __,
+      ...envWithoutBraintrust
+    } = validEnv;
+    const result = envSchema.safeParse(envWithoutBraintrust);
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.BRAINTRUST_API_KEY).toBe('');
+      expect(result.data.BRAINTRUST_PROJECT_NAME).toBe('');
+    }
+  });
+
   it('fails on short session password', () => {
     const result = envSchema.safeParse({
       ...validEnv,

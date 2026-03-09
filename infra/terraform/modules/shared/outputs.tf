@@ -18,6 +18,11 @@ output "container_image_base" {
   value       = "${google_artifact_registry_repository.containers.location}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.containers.name}"
 }
 
+output "database_url_secret_id" {
+  description = "Secret Manager secret ID for external database URL"
+  value       = data.google_secret_manager_secret.database_url.secret_id
+}
+
 output "anthropic_api_key_secret_id" {
   description = "Secret Manager secret ID for Anthropic API key"
   value       = data.google_secret_manager_secret.anthropic_api_key.secret_id

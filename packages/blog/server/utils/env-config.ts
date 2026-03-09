@@ -14,9 +14,9 @@ export const envSchema = z.object({
   // Anthropic
   ANTHROPIC_API_KEY: z.string().min(1, 'ANTHROPIC_API_KEY is required'),
 
-  // Braintrust
-  BRAINTRUST_API_KEY: z.string().min(1, 'BRAINTRUST_API_KEY is required'),
-  BRAINTRUST_PROJECT_NAME: z.string().min(1, 'BRAINTRUST_PROJECT_NAME is required'),
+  // Braintrust (optional — AI observability)
+  BRAINTRUST_API_KEY: z.string().optional().default(''),
+  BRAINTRUST_PROJECT_NAME: z.string().optional().default(''),
 
   // GitHub OAuth
   NUXT_OAUTH_GITHUB_CLIENT_ID: z.string().min(1, 'NUXT_OAUTH_GITHUB_CLIENT_ID is required'),

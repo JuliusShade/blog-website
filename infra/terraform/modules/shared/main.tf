@@ -48,6 +48,11 @@ resource "google_artifact_registry_repository" "containers" {
 }
 
 # Reference existing secrets from GCP Secret Manager
+data "google_secret_manager_secret" "database_url" {
+  secret_id = "database-url"
+  project   = var.project_id
+}
+
 data "google_secret_manager_secret" "anthropic_api_key" {
   secret_id = "anthropic-api-key"
   project   = var.project_id

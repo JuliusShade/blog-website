@@ -46,6 +46,12 @@ variable "deletion_protection" {
   default     = true
 }
 
+variable "use_cloud_sql" {
+  description = "Use Cloud SQL for database (false = external DB like Supabase)"
+  type        = bool
+  default     = true
+}
+
 variable "min_instances" {
   description = "Minimum Cloud Run instances"
   type        = number

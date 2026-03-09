@@ -28,6 +28,7 @@ module "shared" {
 
 module "cloud_sql" {
   source = "../modules/cloud-sql"
+  count  = var.use_cloud_sql ? 1 : 0
 
   project_id                     = var.project_id
   region                         = var.region
@@ -47,8 +48,8 @@ module "cloud_run" {
   region                               = var.region
   container_image                      = var.container_image
   service_account_email                = module.shared.service_account_email
-  database_connection_secret_id        = module.cloud_sql.connection_string_secret_id
-  cloud_sql_connection_name            = module.cloud_sql.instance_connection_name
+  database_connection_secret_id        = var.use_cloud_sql ? module.cloud_sql[0].connection_string_secret_id : module.shared.database_url_secret_id
+  cloud_sql_connection_name            = var.use_cloud_sql ? module.cloud_sql[0].instance_connection_name : ""
   anthropic_api_key_secret_id          = module.shared.anthropic_api_key_secret_id
   session_password_secret_id           = module.shared.session_password_secret_id
   aws_access_key_id_secret_id          = module.shared.aws_access_key_id_secret_id
@@ -80,12 +81,12 @@ module "github_oidc" {
 
 module "cost_scheduler" {
   source = "../modules/cost-scheduler"
-  count  = var.environment == "staging" ? 1 : 0
+  count  = var.environment == "staging" && var.use_cloud_sql ? 1 : 0
 
   project_id              = var.project_id
   region                  = var.region
   service_account_email   = module.shared.service_account_email
-  cloud_sql_instance_name = module.cloud_sql.instance_name
+  cloud_sql_instance_name = module.cloud_sql[0].instance_name
 
   depends_on = [module.cloud_sql]
 }

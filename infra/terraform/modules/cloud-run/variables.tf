@@ -81,6 +81,7 @@ variable "session_password_secret_id" {
 variable "cloud_sql_connection_name" {
   description = "Cloud SQL instance connection name (project:region:instance)"
   type        = string
+  default     = ""
 }
 
 variable "aws_access_key_id_secret_id" {

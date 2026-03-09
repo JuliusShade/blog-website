@@ -26,8 +26,12 @@ COPY packages/blog/package.json ./packages/blog/
 # Cache mount persists /pnpm/store between builds - packages only download when lockfile changes
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-# Copy source code
+# Copy source code (excludes node_modules via .dockerignore, but host
+# symlinks in packages/blog/node_modules may leak through on Windows)
 COPY packages/blog ./packages/blog
+
+# Reinstall to fix any broken symlinks from COPY overwriting pnpm links
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # Build the application
 WORKDIR /app/packages/blog
@@ -40,7 +44,7 @@ ENV NUXT_PUBLIC_GTAG_ID=$NUXT_PUBLIC_GTAG_ID
 
 # Build the Nuxt application
 ENV NODE_OPTIONS="--max-old-space-size=8192"
-RUN cd /app && pnpm --filter @chris-towles/blog exec nuxt build
+RUN cd /app && pnpm --filter @chris-towles/blog run build
 
 # Production stage - use Node for runtime stability
 FROM node:24-slim AS runner
@@ -70,9 +74,9 @@ COPY .claude/skills/loan-the-bank/SKILL.md /app/.claude/skills/loan-the-bank/SKI
 COPY .claude/skills/loan-market/SKILL.md /app/.claude/skills/loan-market/SKILL.md
 COPY .claude/skills/loan-background/SKILL.md /app/.claude/skills/loan-background/SKILL.md
 
-# Copy entrypoint
+# Copy entrypoint (convert Windows CRLF to Unix LF)
 COPY infra/container/entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
 # Set environment variables
 ENV NODE_ENV=production
