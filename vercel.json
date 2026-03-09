@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm --filter @julius-shade/blog build && mkdir -p .vercel && cp -r packages/blog/.vercel/output .vercel/output",
+  "buildCommand": "pnpm --filter @chris-towles/blog build && mkdir -p .vercel && cp -r packages/blog/.vercel/output .vercel/output",
   "installCommand": "pnpm install"
 }
