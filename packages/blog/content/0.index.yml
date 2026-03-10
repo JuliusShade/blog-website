@@ -59,7 +59,7 @@ logos:
 features:
   # headline: What is this blog about?
   title: Why should you listen to me?
-  description: Because I've been doing this for over 20 years and learned a thing or two the hard way.
+  description: Self-taught across data engineering, full-stack development, and cloud architecture. Five years in, I'm designing and building AI systems at scale. I learn fast, go deep, and ship.
   items:
     - title: Take Notes
       description: Always take notes. You will forget given time. Leave a clue for future you.
