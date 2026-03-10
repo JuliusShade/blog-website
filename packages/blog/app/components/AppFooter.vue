@@ -13,10 +13,6 @@ const columns = [
         label: 'X / Twitter',
         to: appConfig.author.twitter,
       },
-      {
-        label: 'Bluesky',
-        to: appConfig.author.bluesky,
-      },
     ],
   },
 ];

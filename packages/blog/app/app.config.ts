@@ -8,7 +8,6 @@ export default defineAppConfig({
   author: {
     name: 'Julius Shade',
     github: 'https://github.com/JuliusShade',
-    twitter: 'https://x.com/Julius_Shade',
-    bluesky: 'https://bsky.app/profile/julius-shade.bsky.social',
+    twitter: 'https://x.com/Shade1J',
   },
 });
