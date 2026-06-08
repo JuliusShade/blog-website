@@ -154,8 +154,8 @@ describe.skip('agent', () => {
       );
       expect(hasAuthorToolUse).toBe(true);
 
-      // Result should mention Chris Towles
-      expect(result.toLowerCase()).toContain('chris');
+      // Result should mention Julius Shade
+      expect(result.toLowerCase()).toContain('julius');
     });
   });
 });

@@ -8,7 +8,7 @@ import type { AgentMessage } from './stream-adapter';
 /**
  * System prompt for the blog chatbot
  */
-const SYSTEM_PROMPT = `You are a knowledgeable and helpful AI assistant on Chris Towles's Blog. Try to be funny but helpful.
+const SYSTEM_PROMPT = `You are a knowledgeable and helpful AI assistant on Julius Shade's Blog. Try to be funny but helpful.
 Your goal is to provide clear, accurate, and well-structured responses.
 
 **CRITICAL: USE THE SEARCH TOOL**

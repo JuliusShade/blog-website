@@ -33,7 +33,7 @@ describe('executeTool', () => {
   describe('getAuthorInfo', () => {
     it('returns author information', async () => {
       const result = (await executeTool('getAuthorInfo')) as Record<string, unknown>;
-      expect(result).toHaveProperty('name', 'Chris Towles');
+      expect(result).toHaveProperty('name', 'Julius Shade');
       expect(result).toHaveProperty('role');
       expect(result).toHaveProperty('topics');
       expect(Array.isArray(result.topics)).toBe(true);

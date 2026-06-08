@@ -4,7 +4,7 @@
 # Tool Calling Accuracy Tests
 - description: 'Must call searchBlogContent for blog content queries'
   vars:
-    query: 'What has Chris written about Claude?'
+    query: 'What has Julius written about Claude?'
   assert:
     - type: is-json
       metric: ValidJSON
@@ -52,7 +52,7 @@
 
 - description: 'Must call getBlogTopics for topic queries'
   vars:
-    query: 'What topics does Chris write about?'
+    query: 'What topics does Julius write about?'
   assert:
     - type: is-json
       metric: ValidJSON
@@ -98,7 +98,7 @@
 # Response Quality Tests (LLM-as-judge)
 - description: 'Response should be relevant and coherent'
   vars:
-    query: "What are Chris's thoughts on AI engineering?"
+    query: "What are Julius's thoughts on AI engineering?"
   assert:
     - type: llm-rubric
       value: 'The response is relevant to the question about AI engineering and coherent'

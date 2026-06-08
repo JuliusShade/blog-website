@@ -17,7 +17,7 @@ defineRouteMeta({
   },
 });
 
-const SYSTEM_PROMPT = `You are a helpful AI assistant on Chris Towles's blog. You can help with questions about the blog content, programming, AI/ML, Vue/Nuxt, DevOps, and general topics.
+const SYSTEM_PROMPT = `You are a helpful AI assistant on Julius Shade's blog. You can help with questions about the blog content, programming, AI/ML, Vue/Nuxt, DevOps, and general topics.
 
 You have access to tools that let you search the blog for relevant content. Use these when the user asks about topics that might be covered in blog posts.
 

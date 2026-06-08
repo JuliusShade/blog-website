@@ -71,7 +71,7 @@ export const chatTools: Anthropic.Tool[] = [
   {
     name: 'getAuthorInfo',
     description:
-      'Get information about Chris Towles, the blog author. Use when users ask about the author, his background, or expertise.',
+      'Get information about Julius Shade, the blog author. Use when users ask about the author, his background, or expertise.',
     input_schema: {
       type: 'object' as const,
       properties: {},
@@ -169,11 +169,11 @@ export async function executeTool(
     }
     case 'getAuthorInfo': {
       return {
-        name: 'Chris Towles',
+        name: 'Julius Shade',
         role: 'Software Engineer',
         topics: ['Vue', 'Nuxt', 'TypeScript', 'AI/ML', 'DevOps', 'Cloud Infrastructure'],
-        blogUrl: 'https://chris.towles.dev',
-        github: 'https://github.com/christowles',
+        blogUrl: 'https://julius.shade.dev',
+        github: 'https://github.com/JuliusShade',
       };
     }
     case 'getBlogTopics': {
