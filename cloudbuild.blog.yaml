@@ -1,0 +1,32 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    env:
+      - DOCKER_BUILDKIT=1
+    args:
+      - build
+      - -f
+      - infra/container/blog.Dockerfile
+      - --build-arg
+      - GIT_SHA=${_GIT_SHA}
+      - --build-arg
+      - BUILD_TAG=${_IMAGE_TAG}
+      - --build-arg
+      - NUXT_PUBLIC_GTAG_ID=${_NUXT_PUBLIC_GTAG_ID}
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/containers/blog:${_IMAGE_TAG}
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/containers/blog:latest
+      - .
+
+images:
+  - us-central1-docker.pkg.dev/$PROJECT_ID/containers/blog:${_IMAGE_TAG}
+  - us-central1-docker.pkg.dev/$PROJECT_ID/containers/blog:latest
+
+options:
+  machineType: E2_HIGHCPU_8
+  diskSizeGb: 100
+
+substitutions:
+  _GIT_SHA: unknown
+  _IMAGE_TAG: manual
+  _NUXT_PUBLIC_GTAG_ID: ''
