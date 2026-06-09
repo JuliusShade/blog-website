@@ -42,10 +42,12 @@ ENV NITRO_PRESET=node-server
 # Google Analytics measurement ID — needed at build time for prerendered pages
 ARG NUXT_PUBLIC_GTAG_ID=""
 ENV NUXT_PUBLIC_GTAG_ID=$NUXT_PUBLIC_GTAG_ID
+ARG NUXT_PUBLIC_SITE_URL="https://blog-inka6s6j4q-uc.a.run.app"
+ENV NUXT_PUBLIC_SITE_URL=$NUXT_PUBLIC_SITE_URL
 
 # Build the Nuxt application
 ENV NODE_OPTIONS="--max-old-space-size=8192"
-RUN cd /app && pnpm --filter @chris-towles/blog run build
+RUN cd /app && pnpm --filter @julius-shade/blog run build
 
 # Production stage - use Node for runtime stability
 FROM node:24-slim AS runner

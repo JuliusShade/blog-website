@@ -12,6 +12,8 @@ steps:
       - BUILD_TAG=${_IMAGE_TAG}
       - --build-arg
       - NUXT_PUBLIC_GTAG_ID=${_NUXT_PUBLIC_GTAG_ID}
+      - --build-arg
+      - NUXT_PUBLIC_SITE_URL=${_NUXT_PUBLIC_SITE_URL}
       - -t
       - us-central1-docker.pkg.dev/$PROJECT_ID/containers/blog:${_IMAGE_TAG}
       - -t
@@ -30,3 +32,4 @@ substitutions:
   _GIT_SHA: unknown
   _IMAGE_TAG: manual
   _NUXT_PUBLIC_GTAG_ID: ''
+  _NUXT_PUBLIC_SITE_URL: https://blog-inka6s6j4q-uc.a.run.app

@@ -69,7 +69,7 @@ export default defineNuxtConfig({
     anthropicApiKey: process.env.ANTHROPIC_API_KEY!,
     awsRegion: process.env.AWS_REGION || 'us-east-1',
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://chris.towles.dev',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://blog-inka6s6j4q-uc.a.run.app',
       model_fast: 'claude-haiku-4-5',
       model: 'claude-sonnet-4-5',
     },
