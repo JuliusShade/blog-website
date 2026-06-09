@@ -12,6 +12,7 @@ RUN corepack enable pnpm && \
 # Configure pnpm store location for BuildKit cache mount
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 # Set working directory
 WORKDIR /app
